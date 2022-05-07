@@ -1,0 +1,7 @@
+name: PrisonCore
+main: me.untouchedodin0.prisoncore.PrisonCore
+version: 1.0
+api-version: 1.13
+
+softdepend:
+  - Vault

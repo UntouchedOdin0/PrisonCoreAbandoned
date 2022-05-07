@@ -1,0 +1,9 @@
+firstRankPrice: 500.0
+percentageIncrease: 0.1
+rankMaterials:
+  1:
+    - STONE
+  2:
+    - COBBLESTONE
+  3:
+    - IRON_ORE
