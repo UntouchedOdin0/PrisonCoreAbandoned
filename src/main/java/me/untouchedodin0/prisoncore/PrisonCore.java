@@ -1,7 +1,9 @@
 package me.untouchedodin0.prisoncore;
 
+import co.aikar.commands.PaperCommandManager;
 import me.untouchedodin0.prisoncore.config.Config;
 import me.untouchedodin0.prisoncore.events.rankup.PlayerRankupEvent;
+import me.untouchedodin0.prisoncore.modules.booster.Boosters;
 import me.untouchedodin0.prisoncore.modules.ranks.Ranks;
 import me.untouchedodin0.prisoncore.modules.ranks.config.RanksConfig;
 import me.untouchedodin0.prisoncore.utils.rank.RankMaterial;
@@ -18,6 +20,8 @@ public class PrisonCore extends JavaPlugin {
     public static PrisonCore prisonCore;
     public static PrivateMines privateMines;
 
+    public static PaperCommandManager paperCommandManager;
+
     private final LinkedHashMap<String, Module> modules = new LinkedHashMap<>();
 
     @Override
@@ -25,9 +29,11 @@ public class PrisonCore extends JavaPlugin {
         getLogger().info(String.format("PrisonCore v%s has been enabled!", getDescription().getVersion()));
         prisonCore = this;
         privateMines = PrivateMines.getPrivateMines();
+        paperCommandManager = new PaperCommandManager(this);
 
         // Load modules
         loadModule(new Ranks());
+        loadModule(new Boosters());
 
         // Save default configs for the modules
         saveDefaultConfig();
@@ -39,10 +45,6 @@ public class PrisonCore extends JavaPlugin {
         prisonCore.getLogger().info("" + RankMaterial.getRankMaterialMap());
         prisonCore.getLogger().info("" + RanksConfig.percentageIncrease);
         prisonCore.getLogger().info("" + RanksConfig.rankMaterials);
-
-        for (int i = 0; i < 50; i++) {
-            prisonCore.getLogger().info(String.format("Can %d divide by 4?: %b", i, Utils.divisibleBy(i, 4)));
-        }
     }
 
     @Override
@@ -60,6 +62,10 @@ public class PrisonCore extends JavaPlugin {
 
     public static PrivateMines getPrivateMines() {
         return privateMines;
+    }
+
+    public static PaperCommandManager getPaperCommandManager() {
+        return paperCommandManager;
     }
 
     private void loadModule(Module module) {

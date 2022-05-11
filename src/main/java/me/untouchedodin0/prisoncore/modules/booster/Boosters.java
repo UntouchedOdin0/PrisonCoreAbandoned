@@ -1,14 +1,14 @@
-package me.untouchedodin0.prisoncore.modules.ranks;
+package me.untouchedodin0.prisoncore.modules.booster;
 
 import co.aikar.commands.PaperCommandManager;
 import me.untouchedodin0.prisoncore.Module;
 import me.untouchedodin0.prisoncore.PrisonCore;
+import me.untouchedodin0.prisoncore.modules.booster.commands.BoosterCommand;
+import me.untouchedodin0.prisoncore.modules.booster.commands.GiveBoosterCommand;
+import me.untouchedodin0.prisoncore.modules.booster.listener.BoosterRedeemListener;
 import me.untouchedodin0.prisoncore.modules.ranks.commands.RanksCommand;
-import me.untouchedodin0.prisoncore.modules.ranks.config.RanksConfig;
-import org.bukkit.Material;
-import redempt.redlib.config.ConfigManager;
 
-public class Ranks implements Module {
+public class Boosters implements Module {
 
     PrisonCore prisonCore = PrisonCore.getInstance();
     PaperCommandManager paperCommandManager;
@@ -16,12 +16,12 @@ public class Ranks implements Module {
 
     @Override
     public String getName() {
-        return "Ranks";
+        return "Boosters";
     }
 
     @Override
     public String getDescription() {
-        return "Ranks module";
+        return "Boosters module";
     }
 
     @Override
@@ -40,34 +40,28 @@ public class Ranks implements Module {
         enabled = true;
         paperCommandManager = PrisonCore.getPaperCommandManager();
         prisonCore.getLogger().info(String.format("Registering commands for module %s v%s...", getName(), getVersion()));
-        paperCommandManager.registerCommand(new RanksCommand());
+        paperCommandManager.registerCommand(new BoosterCommand());
+        paperCommandManager.registerCommand(new GiveBoosterCommand());
+        prisonCore.getServer().getPluginManager().registerEvents(new BoosterRedeemListener(), prisonCore);
     }
 
     @Override
     public void onDisable() {
-        prisonCore.getLogger().info(String.format("Module %s v%s has been disabled!", getName(), getVersion()));
-        enabled = false;
+
     }
 
     @Override
     public void onReload() {
-        prisonCore.getLogger().info(String.format("Reloading module %s v%s...", getName(), getVersion()));
 
-        prisonCore.getLogger().info(String.format("%s v%s has been reloaded!", getName(), getVersion()));
     }
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return false;
     }
 
     @Override
     public void saveDefaultConfig() {
-        ConfigManager configManager = ConfigManager
-                .create(prisonCore, "ranks.yml")
-                .addConverter(Material.class, Material::valueOf, Material::toString)
-                .target(RanksConfig.class)
-                .saveDefaults()
-                .load();
+
     }
 }
